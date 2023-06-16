@@ -10,6 +10,10 @@ const modelSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      required: true,
+    },
     user_id: {
       type: String,
       required: true,
