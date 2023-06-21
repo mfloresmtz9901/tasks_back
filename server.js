@@ -21,7 +21,7 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("connected to MongoDB");
-    app.listen(process.env.PORT, () => {
+    app.listen(process.env.PORT || 4000, () => {
       console.log(`Node API app is running on port ${process.env.PORT}`);
     });
   })

@@ -16,7 +16,17 @@ router.get("/get-all", async (req, res) => {
 router.get("/get-all/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const tasks = await Tasks.find({ user_id: id });
+    const tasks = await Tasks.find({ user_id: id }).sort({ createdAt: -1 });
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.get("/get-all/:id/:order/:status", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const tasks = await Tasks.find({ user_id: id }).sort({ createdAt: -1 });
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -36,7 +46,7 @@ router.get("/get/:id", async (req, res) => {
 router.post("/add", async (req, res) => {
   try {
     const task = await Tasks.create(req.body);
-    res.status(200).json(task);
+    return res.status(200).json(task);
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: error.message });
@@ -48,7 +58,6 @@ router.put("/edit/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const task = await Tasks.findByIdAndUpdate(id, req.body);
-    // we cannot find any task in database
     if (!task) {
       return res
         .status(404)
